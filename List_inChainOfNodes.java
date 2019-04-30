@@ -5,7 +5,6 @@ Represent a list, implemented in a chain of nodes
 
 public class List_inChainOfNodes{
     private Node headSentinel;
-    public Node rear; // make private later
 
     /**
       Construct an empty list
@@ -126,7 +125,7 @@ public class List_inChainOfNodes{
               , before)); // previous node
 
         if (after != null) after.setPreviousNode( before.getNextNode() );
-        else rear = before.getNextNode();
+        else headSentinel.setPreviousNode( before.getNextNode() );
 
         return true;
     }
@@ -145,7 +144,7 @@ public class List_inChainOfNodes{
 
         before.setNextNode(ax.getNextNode());
         if (after != null) after.setPreviousNode( ax.getPreviousNode());
-        else rear = before;
+        else headSentinel.setPreviousNode(before);
 
         Object saveForReturn = ax.getCargo();
         return saveForReturn;
@@ -162,10 +161,8 @@ public class List_inChainOfNodes{
      */
     public String toStringReversed() {
         String stringRep = "tail-first [";
-        System.out.println(rear);
-
-        for (Node node = rear;
-            node.getPreviousNode() != null;
+        for (Node node = headSentinel.getPreviousNode();
+            node.getCargo() != null;
             node = node.getPreviousNode()
             )
             stringRep += node.getCargo() + "`";
